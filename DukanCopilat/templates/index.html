@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f7fb">
+
+    <title>DukaanCopilot | AI Sales Workspace</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}"
+        defer
+    ></script>
+</head>
+
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+
+        <a class="brand" href="#overview">
+            <span class="brand-mark">DC</span>
+            <span class="brand-name">
+                DukaanCopilot
+                <small>AI SALES ASSISTANT</small>
+            </span>
+        </a>
+
+        <div class="workspace-switcher">
+            <div class="workspace-avatar">UT</div>
+            <div class="workspace-details">
+                <span>Current workspace</span>
+                <strong>{{ store.name }}</strong>
+            </div>
+        </div>
+
+        <p class="nav-caption">WORKSPACE</p>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+            <a class="nav-link active" href="#overview">Overview</a>
+            <a class="nav-link" href="#reply-studio">Reply Studio</a>
+            <a class="nav-link" href="#store-knowledge">Store Knowledge</a>
+            <a class="nav-link" href="#store-settings">Settings</a>
+            <a class="nav-link" href="#faq-library">FAQ Library</a>
+            <a class="nav-link" href="#reply-history">Reply History</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <strong>Development workspace</strong>
+            <p>Generated replies must be reviewed before sending.</p>
+        </div>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div class="breadcrumbs">Workspace / Overview</div>
+
+            <div class="topbar-status">
+                <span class="online-dot"></span>
+                Gemini-powered workspace
+            </div>
+        </header>
+
+
+        <section class="hero" id="overview">
+
+            <div class="hero-copy">
+                <p class="eyebrow">YOUR AI SALES WORKSPACE</p>
+
+                <h1>
+                    Better replies.<br>
+                    <span>Less busywork.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Draft helpful customer replies using your
+                    store's products, FAQs and policies.
+                </p>
+
+                <a class="hero-link" href="#reply-studio">
+                    Create a reply
+                </a>
+            </div>
+
+            <div class="hero-art" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="art-center">DC</div>
+                <div class="floating-note note-top">Store-aware replies</div>
+                <div class="floating-note note-bottom">English and Roman Urdu</div>
+            </div>
+
+        </section>
+
+
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <p class="stat-heading">REPLY GENERATION</p>
+                <h2>AI-powered</h2>
+                <p>Draft customer-service replies.</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-heading">STORE KNOWLEDGE</p>
+                <h2>Database-backed</h2>
+                <p>Manage products, policies and FAQs.</p>
+            </article>
+
+            <article class="stat-card">
+                <p class="stat-heading">CONVERSATIONS</p>
+                <h2>Saved history</h2>
+                <p>Review recent generated replies.</p>
+            </article>
+
+        </section>
+
+
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">CUSTOMER SUPPORT</p>
+                <h2>Reply Studio</h2>
+                <p class="section-description">
+                    Generate a draft using your current store data.
+                </p>
+            </div>
+
+            <span class="demo-badge">DEVELOPMENT MODE</span>
+        </div>
+
+
+        <section class="workspace-grid">
+
+            <article class="panel reply-panel" id="reply-studio">
+
+                <div class="panel-heading">
+                    <h3>Draft a customer reply</h3>
+                    <p>Enter the customer's message below.</p>
+                </div>
+
+                <form id="reply-form">
+
+                    <div class="label-row">
+                        <label for="customer-question">
+                            Customer's message
+                        </label>
+                        <span class="input-label-tag">INPUT</span>
+                    </div>
+
+                    <textarea
+                        id="customer-question"
+                        name="question"
+                        rows="5"
+                        maxlength="1000"
+                        placeholder="Example: Karachi delivery kitne din mein hoti hai?"
+                        required
+                    ></textarea>
+
+                    <div class="form-meta">
+                        <span>Enter a customer question</span>
+                        <span id="char-count">0 / 1000</span>
+                    </div>
+
+                    <div class="examples">
+                        <p>TRY A SAMPLE</p>
+
+                        <button
+                            class="sample-chip"
+                            type="button"
+                            data-example="Karachi delivery kitne din mein hoti hai?"
+                        >
+                            Delivery time
+                        </button>
+
+                        <button
+                            class="sample-chip"
+                            type="button"
+                            data-example="What is the price of the Classic Denim Jacket?"
+                        >
+                            Product price
+                        </button>
+
+                        <button
+                            class="sample-chip"
+                            type="button"
+                            data-example="Which payment methods do you accept?"
+                        >
+                            Payment methods
+                        </button>
+
+                        <button
+                            class="sample-chip"
+                            type="button"
+                            data-example="Do you offer a student discount?"
+                        >
+                            Unknown detail
+                        </button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button
+                            class="secondary-button"
+                            id="clear-button"
+                            type="button"
+                        >
+                            Clear
+                        </button>
+
+                        <button
+                            class="primary-button"
+                            id="generate-button"
+                            type="submit"
+                        >
+                            <span id="button-label">Generate reply</span>
+                        </button>
+                    </div>
+
+                </form>
+
+
+                <section
+                    class="reply-result"
+                    id="reply-card"
+                    aria-live="polite"
+                    hidden
+                >
+
+                    <div class="result-heading">
+                        <div class="result-title">
+                            <h3>AI-generated draft</h3>
+                            <p>Review before sending to a customer.</p>
+                        </div>
+
+                        <span id="reply-status" class="status-badge">
+                            Ready
+                        </span>
+                    </div>
+
+                    <div
+                        class="generated-reply"
+                        id="reply-text"
+                    ></div>
+
+                    <div class="result-footer">
+                        <span id="reply-model">Powered by Gemini</span>
+
+                        <div class="copy-area">
+                            <span
+                                id="copy-feedback"
+                                class="copy-feedback"
+                            ></span>
+
+                            <button
+                                type="button"
+                                id="copy-button"
+                                class="copy-button"
+                                disabled
+                            >
+                                Copy reply
+                            </button>
+                        </div>
+                    </div>
+
+                </section>
+
+            </article>
+
+
+            <aside
+                class="panel knowledge-panel"
+                id="store-knowledge"
+            >
+
+                <div class="knowledge-header">
+                    <div>
+                        <p class="section-kicker">AI CONTEXT</p>
+                        <h3>Store Knowledge</h3>
+                    </div>
+                </div>
+
+                <p class="knowledge-intro">
+                    Information used to draft customer replies.
+                </p>
+
+
+                <div class="knowledge-section" id="products-section">
+
+                    <div class="knowledge-section-title">
+                        <h4>Products</h4>
+                        <span id="product-count">{{ products | length }} items</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="add-product-button"
+                        id="add-product-button"
+                    >
+                        Add product
+                    </button>
+
+                    <div class="product-list" id="product-list">
+
+                        {% for product in products %}
+
+                        <article
+                            class="product-row"
+                            data-product-id="{{ product.id }}"
+                            data-name="{{ product.name }}"
+                            data-price="{{ product.price }}"
+                            data-availability="{{ product.availability }}"
+                            data-description="{{ product.description }}"
+                        >
+
+                            <div class="product-info">
+                                <strong>{{ product.name }}</strong>
+                                <p>{{ product.price }}</p>
+                                <small class="stock-label">
+                                    {{ product.availability }}
+                                </small>
+                            </div>
+
+                            <div class="product-actions">
+                                <button
+                                    type="button"
+                                    class="product-action-btn"
+                                    data-action="edit"
+                                >
+                                    Edit
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="product-action-btn delete-action"
+                                    data-action="delete"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+
+                        </article>
+
+                        {% else %}
+
+                        <p class="empty-state">No products saved yet.</p>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <form id="product-form" class="product-form" hidden>
+
+                        <h4 id="product-form-title">Add a product</h4>
+
+                        <input type="hidden" id="product-id">
+
+                        <label for="product-name">Product name</label>
+                        <input
+                            type="text"
+                            id="product-name"
+                            maxlength="100"
+                            required
+                        >
+
+                        <label for="product-price">Price</label>
+                        <input
+                            type="text"
+                            id="product-price"
+                            maxlength="40"
+                            placeholder="PKR 1,499"
+                            required
+                        >
+
+                        <label for="product-availability">Stock status</label>
+                        <select id="product-availability" required>
+                            <option value="In stock">In stock</option>
+                            <option value="Limited stock">Limited stock</option>
+                            <option value="Out of stock">Out of stock</option>
+                        </select>
+
+                        <label for="product-description">Description</label>
+                        <textarea
+                            id="product-description"
+                            rows="3"
+                            maxlength="500"
+                        ></textarea>
+
+                        <p
+                            id="product-form-message"
+                            class="form-message"
+                            role="status"
+                        ></p>
+
+                        <div class="product-form-actions">
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                id="cancel-product-button"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="primary-button"
+                                id="save-product-button"
+                            >
+                                Save product
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="knowledge-section">
+                    <div class="knowledge-section-title">
+                        <h4>Shipping</h4>
+                        <span class="configured-label">CONFIGURED</span>
+                    </div>
+
+                    <div class="policy-row">
+                        <span>Karachi</span>
+                        <strong>{{ store.shipping.karachi }}</strong>
+                    </div>
+
+                    <div class="policy-row">
+                        <span>Other cities</span>
+                        <strong>{{ store.shipping.other_cities }}</strong>
+                    </div>
+
+                    <div class="policy-row">
+                        <span>Standard fee</span>
+                        <strong>{{ store.shipping.standard_fee }}</strong>
+                    </div>
+
+                    <div class="policy-row">
+                        <span>Free shipping from</span>
+                        <strong>{{ store.shipping.free_shipping_threshold }}</strong>
+                    </div>
+                </div>
+
+
+                <div class="knowledge-section">
+                    <div class="knowledge-section-title">
+                        <h4>Return policy</h4>
+                    </div>
+
+                    <p class="policy-description">{{ store.return_policy }}</p>
+                </div>
+
+            </aside>
+
+        </section>
+
+
+        <section class="panel management-panel" id="store-settings">
+
+            <div class="panel-heading">
+                <p class="section-kicker">BUSINESS PROFILE</p>
+                <h3>Store Settings</h3>
+                <p>Update your business information and customer policies.</p>
+            </div>
+
+            <form id="settings-form" class="settings-form">
+
+                <div class="settings-grid">
+
+                    <div class="field-group">
+                        <label for="setting-name">Store name</label>
+                        <input
+                            id="setting-name"
+                            type="text"
+                            maxlength="100"
+                            value="{{ store.name }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-category">Business category</label>
+                        <input
+                            id="setting-category"
+                            type="text"
+                            maxlength="100"
+                            value="{{ store.category }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-karachi">Karachi delivery time</label>
+                        <input
+                            id="setting-karachi"
+                            type="text"
+                            maxlength="100"
+                            value="{{ store.shipping.karachi }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-other-cities">Other cities delivery</label>
+                        <input
+                            id="setting-other-cities"
+                            type="text"
+                            maxlength="100"
+                            value="{{ store.shipping.other_cities }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-shipping-fee">Standard shipping fee</label>
+                        <input
+                            id="setting-shipping-fee"
+                            type="text"
+                            maxlength="40"
+                            value="{{ store.shipping.standard_fee }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-free-shipping">Free shipping threshold</label>
+                        <input
+                            id="setting-free-shipping"
+                            type="text"
+                            maxlength="40"
+                            value="{{ store.shipping.free_shipping_threshold }}"
+                        >
+                    </div>
+
+                    <div class="field-group field-full">
+                        <label for="setting-return-policy">Return and exchange policy</label>
+                        <textarea
+                            id="setting-return-policy"
+                            rows="3"
+                            maxlength="1500"
+                            required
+                        >{{ store.return_policy }}</textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-payment-methods">
+                            Payment methods, one per line
+                        </label>
+                        <textarea
+                            id="setting-payment-methods"
+                            rows="4"
+                            maxlength="500"
+                            required
+                        >{{ store.payment_methods | join('\n') }}</textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="setting-support-hours">Support hours</label>
+                        <textarea
+                            id="setting-support-hours"
+                            rows="4"
+                            maxlength="200"
+                            required
+                        >{{ store.support_hours }}</textarea>
+                    </div>
+
+                </div>
+
+                <p
+                    id="settings-message"
+                    class="form-message"
+                    role="status"
+                ></p>
+
+                <div class="form-actions">
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        id="save-settings-button"
+                    >
+                        Save store settings
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <section class="panel management-panel" id="faq-library">
+
+            <div class="panel-heading">
+                <p class="section-kicker">SAVED ANSWERS</p>
+                <h3>FAQ Library</h3>
+                <p>Manage frequently asked questions used by the assistant.</p>
+            </div>
+
+            <div class="faq-list" id="faq-list">
+
+                {% for faq in faqs %}
+
+                <article
+                    class="faq-card"
+                    data-faq-id="{{ faq.id }}"
+                    data-question="{{ faq.question }}"
+                    data-answer="{{ faq.answer }}"
+                >
+                    <div class="faq-content">
+                        <strong class="faq-question">{{ faq.question }}</strong>
+                        <p class="faq-answer">{{ faq.answer }}</p>
+                    </div>
+
+                    <div class="faq-actions">
+                        <button
+                            class="text-action"
+                            type="button"
+                            data-action="edit-faq"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="text-action delete-text-action"
+                            type="button"
+                            data-action="delete-faq"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </article>
+
+                {% else %}
+
+                <p class="empty-state">No FAQs saved yet.</p>
+
+                {% endfor %}
+
+            </div>
+
+
+            <form id="faq-form" class="faq-form" hidden>
+
+                <h4 id="faq-form-title">Add a frequently asked question</h4>
+
+                <input type="hidden" id="faq-id">
+
+                <div class="field-group">
+                    <label for="faq-question">Question</label>
+                    <input
+                        id="faq-question"
+                        type="text"
+                        maxlength="250"
+                        required
+                    >
+                </div>
+
+                <div class="field-group">
+                    <label for="faq-answer">Answer</label>
+                    <textarea
+                        id="faq-answer"
+                        rows="4"
+                        maxlength="1500"
+                        required
+                    ></textarea>
+                </div>
+
+                <p
+                    id="faq-form-message"
+                    class="form-message"
+                    role="status"
+                ></p>
+
+                <div class="form-actions">
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancel-faq-button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                        id="save-faq-button"
+                    >
+                        Save FAQ
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="form-actions">
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="add-faq-button"
+                >
+                    Add FAQ
+                </button>
+            </div>
+
+        </section>
+
+
+        <section class="panel management-panel" id="reply-history">
+
+            <div class="panel-heading">
+                <p class="section-kicker">SAVED CONVERSATIONS</p>
+                <h3>Reply History</h3>
+                <p>Review recent AI-generated replies from your workspace.</p>
+            </div>
+
+            <div class="history-list" id="history-list">
+
+                {% for item in conversations %}
+
+                <article class="history-card">
+
+                    <div class="history-meta">
+                        <span>{{ item.model }}</span>
+                        <time>{{ item.created_at }}</time>
+                    </div>
+
+                    <div class="history-content">
+                        <p class="history-label">CUSTOMER QUESTION</p>
+                        <p class="history-question">{{ item.customer_question }}</p>
+
+                        <p class="history-label">GENERATED REPLY</p>
+                        <p class="history-reply">{{ item.ai_reply }}</p>
+                    </div>
+
+                    <div class="history-actions">
+                        <button
+                            type="button"
+                            class="text-action"
+                            data-history-action="reuse"
+                        >
+                            Reuse question
+                        </button>
+
+                        <button
+                            type="button"
+                            class="text-action"
+                            data-history-action="copy"
+                        >
+                            Copy reply
+                        </button>
+                    </div>
+
+                </article>
+
+                {% else %}
+
+                <p class="empty-state" id="history-empty">
+                    No replies have been saved yet.
+                </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <footer class="page-footer">
+            <span>DukaanCopilot / Learning MVP</span>
+            <span>Python, Flask, SQLite and Gemini</span>
+        </footer>
+
+    </main>
+
+</div>
+</body>
+</html>
